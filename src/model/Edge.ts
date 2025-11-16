@@ -7,51 +7,49 @@ import { lineString } from "@turf/turf";
  * An edge with its source and target
  */
 export class Edge {
-    id: string;
-    private _source: Vertex; 
-    private _target: Vertex;
-    private geometry?: LineString;  
+  id: string;
+  private _source: Vertex;
+  private _target: Vertex;
+  private geometry?: LineString;
 
-    constructor(source: Vertex, target: Vertex) {
-        if (!source) {
-            throw new Error("Edge source cannot be null or undefined");
-        }
-        if (!target) {
-            throw new Error("Edge target cannot be null or undefined");
-        }
-        
-        this._source = source;
-        this._target = target;
-      
+  constructor(source: Vertex, target: Vertex) {
+    if (!source) {
+      throw new Error("Edge source cannot be null or undefined");
+    }
+    if (!target) {
+      throw new Error("Edge target cannot be null or undefined");
     }
 
-    getSource(): Vertex {
-        return this._source;
-    }
+    this._source = source;
+    this._target = target;
 
-    getTarget(): Vertex {
-        return this._target;
-    }
+    source.addOutEdge(this);
+    target.addInEdge(this);
+  }
 
-    setGeometry(geometry: LineString): void {
-        this.geometry = geometry;
-    }
+  getSource(): Vertex {
+    return this._source;
+  }
 
-    getLength(): number {
-        return length(lineString(this.getGeometry().coordinates));
-    }
+  getTarget(): Vertex {
+    return this._target;
+  }
 
-    getGeometry(): LineString {
-        if (this.geometry) {
-            return this.geometry;
-        }
-        return {
-            type: "LineString",
-            coordinates: [
-                this._source.coordinate,  
-                this._target.coordinate
-            ]
-        }
-    }
+  setGeometry(geometry: LineString): void {
+    this.geometry = geometry;
+  }
 
+  getLength(): number {
+    return length(lineString(this.getGeometry().coordinates));
+  }
+
+  getGeometry(): LineString {
+    if (this.geometry) {
+      return this.geometry;
+    }
+    return {
+      type: "LineString",
+      coordinates: [this._source.coordinate, this._target.coordinate],
+    };
+  }
 }
