@@ -28,23 +28,17 @@ export function createTestGraph01(): Graph {
 	d.coordinate = [1.0, 1.0];
 	g.vertices.push(d);
 
-	const ab = new Edge();
-	ab.id = "ab";
-	ab.source = a;
-	ab.target = b;
-	g.edges.push(ab);
-
-	const bc = new Edge();
-	bc.id = "bc";
-	bc.source = b;
-	bc.target = c;
-	g.edges.push(bc);
-
-	const ad = new Edge();
-	ad.id = "ad";
-	ad.source = a;
-	ad.target = d;
-	g.edges.push(ad);
+	const ab = new Edge(a, b);
+    ab.id = "ab";
+    g.edges.push(ab);
+    
+    const bc = new Edge(b, c);
+    bc.id = "bc";
+    g.edges.push(bc);
+    
+    const ad = new Edge(a, d);
+    ad.id = "ad";
+    g.edges.push(ad);
 
 	return g;
 }

@@ -8,8 +8,30 @@ import { lineString } from "@turf/turf";
  */
 export class Edge {
     id: string;
-    source: Vertex;
-    target: Vertex;
+    private _source: Vertex; 
+    private _target: Vertex;
+
+    constructor(source: Vertex, target: Vertex) {
+        if (!source) {
+            throw new Error("Edge source cannot be null or undefined");
+        }
+        if (!target) {
+            throw new Error("Edge target cannot be null or undefined");
+        }
+        
+        this._source = source;
+        this._target = target;
+      
+    }
+
+    getSource(): Vertex {
+        return this._source;
+    }
+
+    getTarget(): Vertex {
+        return this._target;
+    }
+
 
     getLength(): number {
         return length(lineString(this.getGeometry().coordinates));
@@ -19,8 +41,8 @@ export class Edge {
         return {
             type: "LineString",
             coordinates: [
-                this.source.coordinate,
-                this.target.coordinate
+                this._source.coordinate,  
+                this._target.coordinate
             ]
         }
     }
