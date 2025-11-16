@@ -14,18 +14,6 @@ export class Vertex {
    */
   coordinate: Coordinate;
 
-  /**
-   * dijkstra - cost to reach a vertex (Number.POSITIVE_INFINITY if the vertex is not reached)
-   */
-  cost: number;
-  /**
-   * dijkstra - incoming edge with the best cost
-   */
-  reachingEdge: Edge | null;
-  /**
-   * dijkstra - indicates if the vertex is visited
-   */
-  visited: boolean;
 
   private _inEdges: Edge[];
   private _outEdges: Edge[];
@@ -33,9 +21,7 @@ export class Vertex {
   constructor() {
     this.id = "";
     this.coordinate = [0, 0];
-    this.cost = Number.POSITIVE_INFINITY;
-    this.visited = false;
-    this.reachingEdge = null;
+
     this._inEdges = [];
     this._outEdges = [];
   }
