@@ -10,6 +10,7 @@ export class Edge {
     id: string;
     private _source: Vertex; 
     private _target: Vertex;
+    private geometry?: LineString;  
 
     constructor(source: Vertex, target: Vertex) {
         if (!source) {
@@ -32,12 +33,18 @@ export class Edge {
         return this._target;
     }
 
+    setGeometry(geometry: LineString): void {
+        this.geometry = geometry;
+    }
 
     getLength(): number {
         return length(lineString(this.getGeometry().coordinates));
     }
 
     getGeometry(): LineString {
+        if (this.geometry) {
+            return this.geometry;
+        }
         return {
             type: "LineString",
             coordinates: [

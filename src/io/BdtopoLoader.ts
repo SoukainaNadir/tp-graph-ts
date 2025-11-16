@@ -18,6 +18,7 @@ export class BdtopoLoader {
   async loadGraphFromFile(inputPath: string): Promise<Graph> {
     const g = new Graph();
     const featureCollection = JSON.parse(readFileSync(inputPath, "utf-8"));
+
     for (const feature of featureCollection.features) {
       /* retreive geometry */
       const geometry: LineString = feature.geometry;
@@ -33,24 +34,30 @@ export class BdtopoLoader {
       /* split edge creating direct and reverse way */
       const allowedDirection = feature.properties.sens_de_circulation;
       if (
-        allowedDirection == "Double sens" ||
-        allowedDirection == "Sens direct"
+        allowedDirection === "Double sens" ||
+        allowedDirection === "Sens direct"
       ) {
-        g.createEdge(
+        const directEdge = g.createEdge(
           startVertex,
           endVertex,
           feature.properties.cleabs_ge + "-direct"
         );
+        directEdge.setGeometry(geometry);
       }
       if (
-        allowedDirection == "Double sens" ||
-        allowedDirection == "Sens inverse"
+        allowedDirection === "Double sens" ||
+        allowedDirection === "Sens inverse"
       ) {
-        g.createEdge(
+        const reverseEdge = g.createEdge(
           endVertex,
           startVertex,
           feature.properties.cleabs_ge + "-reverse"
         );
+        const reversedGeometry: LineString = {
+          type: "LineString",
+          coordinates: [...geometry.coordinates].reverse()
+        };
+        reverseEdge.setGeometry(reversedGeometry);
       }
     }
     return g;
