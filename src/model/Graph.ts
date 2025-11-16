@@ -15,6 +15,23 @@ export class Graph {
         this.edges = [];
     }
 
+
+    createVertex(coordinate: Coordinate, id: string): Vertex {
+        const vertex = new Vertex();
+        vertex.id = id;
+        vertex.coordinate = coordinate;
+        this.vertices.push(vertex);
+        return vertex;
+    }
+
+
+    createEdge(source: Vertex, target: Vertex, id: string): Edge {
+        const edge = new Edge(source, target);
+        edge.id = id;
+        this.edges.push(edge);
+        return edge;
+    }
+    
     /**
      * Get out edges for a given vertex
      */
